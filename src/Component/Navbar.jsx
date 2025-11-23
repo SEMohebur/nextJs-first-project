@@ -1,0 +1,51 @@
+"use client";
+import Link from "next/link";
+import React from "react";
+import Image from "next/image";
+import { signOut } from "firebase/auth";
+import { auth } from "@/app/firebase/config";
+
+const Navbar = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      console.log("User Logged Out");
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
+  return (
+    <nav className=" flex flex-col md:flex-row items-center justify-between w-11/12 mx-auto py-2 gap-3">
+      <div className=" border-2 rounded-full p-2 border-green-400 cursor-pointer ">
+        <Image src="/logo.avif" width={30} height={30} alt="Logo" />
+      </div>
+      <ul className=" flex flex-col md:flex-row items-center justify-center gap-5 font-bold text-gray-700">
+        <li className=" cursor-pointer">
+          <Link href="/">Home</Link>
+        </li>
+        <li className=" cursor-pointer">
+          <Link href="/products">Products</Link>
+        </li>
+        <li className=" cursor-pointer">
+          <Link href="/about">About Us</Link>
+        </li>
+        <li className=" cursor-pointer">
+          <Link href="/login">Login</Link>
+        </li>
+        <li className=" cursor-pointer">
+          <Link href="/register">Register</Link>
+        </li>
+        <li className=" cursor-pointer">
+          <button
+            onClick={handleLogout}
+            className=" bg-gray-300 px-2 py-1 rounded-2xl cursor-pointer hover:bg-white duration-300"
+          >
+            Log Out
+          </button>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export default Navbar;
