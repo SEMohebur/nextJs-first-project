@@ -4,8 +4,12 @@ import React from "react";
 import Image from "next/image";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Navbar = () => {
+  const [user] = useAuthState(auth);
+  console.log(user);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -29,20 +33,36 @@ const Navbar = () => {
         <li className=" cursor-pointer">
           <Link href="/about">About Us</Link>
         </li>
-        <li className=" cursor-pointer">
-          <Link href="/login">Login</Link>
-        </li>
-        <li className=" cursor-pointer">
-          <Link href="/register">Register</Link>
-        </li>
-        <li className=" cursor-pointer">
-          <button
-            onClick={handleLogout}
-            className=" bg-gray-300 px-2 py-1 rounded-2xl cursor-pointer hover:bg-white duration-300"
-          >
-            Log Out
-          </button>
-        </li>
+        {user ? (
+          <>
+            <li className=" cursor-pointer">
+              <Link href="/addProduct">Add Product</Link>
+            </li>
+
+            <li className=" cursor-pointer">
+              <Link href="/manageProducts">Manage Products</Link>
+            </li>
+
+            <li className=" cursor-pointer">
+              <button
+                onClick={handleLogout}
+                className=" bg-gray-300 px-2 py-1 rounded-2xl cursor-pointer hover:bg-white duration-300"
+              >
+                Log Out
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            {" "}
+            <li className=" cursor-pointer">
+              <Link href="/login">Login</Link>
+            </li>
+            <li className=" cursor-pointer">
+              <Link href="/register">Register</Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
