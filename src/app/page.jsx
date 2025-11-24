@@ -1,24 +1,23 @@
-"use client";
-import React, { use } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-const Homepage = () => {
-  const [user, loading] = useAuthState(auth);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/register");
+const getAllData = async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/topics", {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      throw new Error("Faild to fetch topics");
     }
-  }, [user, router, loading]);
-
-  if (loading || !user) {
-    return <p className="text-center mt-10 text-xl">Loading...</p>; // loading state
+    return res.json();
+  } catch (err) {
+    console.log("Error loading topics: ", err);
   }
+};
 
-  return <div className=" h-screen text-3xl text-red-500">hello world</div>;
+const Homepage = async () => {
+  const { topics } = await getAllData();
+  // data asche ekhn sodho map kore bosabo
+  console.log(topics);
+
+  return <div className=" h-screen text-3xl text-red-500"></div>;
 };
 
 export default Homepage;

@@ -8,7 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 const Navbar = () => {
   const [user] = useAuthState(auth);
-  console.log(user);
+  // console.log(user);
 
   const handleLogout = async () => {
     try {
@@ -19,7 +19,7 @@ const Navbar = () => {
     }
   };
   return (
-    <nav className=" flex flex-col md:flex-row items-center justify-between w-11/12 mx-auto py-2 gap-3">
+    <nav className=" flex flex-col md:flex-row items-center justify-between w-11/12 mx-auto py-2 gap-3 border-b border-gray-200">
       <div className=" border-2 rounded-full p-2 border-green-400 cursor-pointer ">
         <Image src="/logo.avif" width={30} height={30} alt="Logo" />
       </div>
