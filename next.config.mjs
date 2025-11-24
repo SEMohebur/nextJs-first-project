@@ -3,7 +3,18 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    domains: ["www.applegadgetsbd.com"], // এখানে host name add করো
+    domains: [
+      "images.unsplash.com",
+      "plus.unsplash.com",
+      "www.pexels.com",
+      "images.pexels.com",
+      "picsum.photos",
+      "via.placeholder.com",
+      "www.applegadgetsbd.com",
+      "adminapi.applegadgetsbd.com",
+      "cdn.pixabay.com",
+      "upload.wikimedia.org",
+    ],
   },
 };
 

@@ -53,7 +53,9 @@ const AddProductPage = () => {
         onSubmit={handleSubmit}
         className=" p-5 bg-gray-100 rounded-2xl m-5"
       >
-        <h3 className=" text-2xl font-bold text-center">Add Product</h3>
+        <h3 className=" text-3xl font-bold text-center text-gray-700">
+          Add Product
+        </h3>
         <div className="mb-4 grid grid-cols space-y-4">
           <div>
             <label className="block text-gray-700 font-medium mb-2">

@@ -18,8 +18,9 @@ const Navbar = () => {
       console.error("Logout Error:", error);
     }
   };
+
   return (
-    <nav className=" flex flex-col md:flex-row items-center justify-between w-11/12 mx-auto py-2 gap-3 border-b border-gray-200">
+    <nav className=" sticky top-0 z-10 flex bg-white flex-col md:flex-row items-center justify-between w-11/12 mx-auto px-3 py-2 gap-3  border-b border-gray-200">
       <div className=" border-2 rounded-full p-2 border-green-400 cursor-pointer ">
         <Image src="/logo.avif" width={30} height={30} alt="Logo" />
       </div>

@@ -5,6 +5,7 @@ import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
 const getAllData = async () => {
   try {
@@ -33,9 +34,6 @@ const ManageProductPage = () => {
   }, [user, router, loading]);
   //
 
-  // const { topics } = getAllData();
-  // console.log(topics);
-
   useEffect(() => {
     const fetchTopics = async () => {
       const data = await getAllData();
@@ -45,24 +43,64 @@ const ManageProductPage = () => {
     fetchTopics();
   }, []);
 
-  console.log(topics);
+  const removeTopics = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(`http://localhost:3000/api/topics?id=${id}`, {
+            method: "DELETE",
+          });
+
+          if (res.ok) {
+            await Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+            window.location.reload();
+          } else {
+            Swal.fire({
+              title: "Error!",
+              text: "Something went wrong while deleting.",
+              icon: "error",
+            });
+          }
+        } catch (err) {
+          Swal.fire({
+            title: "Error!",
+            text: "Something went wrong while deleting.",
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
 
   //
   if (loading || !user || dataLoading) {
     return <p className="text-center mt-10 text-xl">Loading...</p>; // loading state
   }
   return (
-    <div>
-      <div className="overflow-x-auto p-4">
+    <div className=" w-11/12 mx-auto">
+      <div className="overflow-x-auto my-2">
+        <h2 className=" my-4 text-center text-3xl font-bold text-gray-700">
+          Manage Product
+        </h2>
         <table className="min-w-full border border-gray-200  ">
           <thead className="bg-gray-100">
             <tr>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
                 Title
               </th>
-              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                Description
-              </th>
+
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
                 Category
               </th>
@@ -87,9 +125,7 @@ const ManageProductPage = () => {
                 <td className="px-4 py-2 text-sm text-gray-800">
                   {product.title}
                 </td>
-                <td className="px-4 py-2 text-sm text-gray-800">
-                  {product.description}
-                </td>
+
                 <td className="px-4 py-2 text-sm text-gray-800">
                   {product.category}
                 </td>
@@ -97,16 +133,20 @@ const ManageProductPage = () => {
                   ${product.price}
                 </td>
                 <td className="px-4 py-2">
-                  <Image
-                    src={product.image} // product.image URL
-                    alt={product.title} // alt text
-                    width={64} // 16 * 4px
-                    height={64} // 16 * 4px
-                    className="object-cover rounded"
-                  />
+                  <div className="w-16 h-10 relative overflow-hidden rounded">
+                    <Image
+                      src={product.image}
+                      alt={product.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 </td>
                 <td className="px-4 py-2 text-sm text-gray-800">
-                  <button className=" bg-red-400 p-1 rounded text-white cursor-pointer">
+                  <button
+                    onClick={() => removeTopics(product._id)}
+                    className=" bg-red-400 p-1 rounded text-white cursor-pointer"
+                  >
                     Delete
                   </button>
                 </td>
