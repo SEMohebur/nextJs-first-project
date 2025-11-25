@@ -20,7 +20,7 @@ const getTopicById = async (id) => {
 };
 
 const ProductsDetailpage = async ({ params }) => {
-  const { id } = await params;
+  const { id } = params;
   const { topic } = await getTopicById(id);
   // console.log(topic);
 
