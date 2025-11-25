@@ -28,7 +28,7 @@ const AddProductPage = () => {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/topics`,
+        `https://next-js-first-project-kappa.vercel.app/api/topics`,
         {
           method: "POST",
           headers: { "Content-type": "application/json" },

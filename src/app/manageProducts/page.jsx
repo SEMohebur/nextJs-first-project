@@ -10,9 +10,12 @@ import Link from "next/link";
 
 const getAllData = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/topics`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `https://next-js-first-project-kappa.vercel.app/api/topics`,
+      {
+        cache: "no-store",
+      }
+    );
     if (!res.ok) {
       throw new Error("Faild to fetch topics");
     }

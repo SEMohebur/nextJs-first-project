@@ -5,7 +5,7 @@ import React from "react";
 const getTopicById = async (id) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/topics/${id}`,
+      `https://next-js-first-project-kappa.vercel.app/api/topics/${id}`,
       {
         cache: "no-store",
       }

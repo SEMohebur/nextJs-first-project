@@ -14,7 +14,7 @@ const Homepage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/topics`)
+    fetch(`https://next-js-first-project-kappa.vercel.app/api/topics`)
       .then((res) => res.json())
       .then((data) => setTopics(data.topics || []))
       .finally(() => setLoading(false));
