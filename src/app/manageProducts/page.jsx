@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import Link from "next/link";
 
 const getAllData = async () => {
   try {
@@ -86,7 +87,7 @@ const ManageProductPage = () => {
 
   //
   if (loading || !user || dataLoading) {
-    return <p className="text-center mt-10 text-xl">Loading...</p>; // loading state
+    return <p className="text-center mt-10 text-xl">Loading...</p>;
   }
   return (
     <div className=" w-11/12 mx-auto">
@@ -94,7 +95,7 @@ const ManageProductPage = () => {
         <h2 className=" my-4 text-center text-3xl font-bold text-gray-700">
           Manage Product
         </h2>
-        <table className="min-w-full border border-gray-200  ">
+        <table className="min-w-full border border-gray-200 ">
           <thead className="bg-gray-100">
             <tr>
               <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
@@ -138,11 +139,19 @@ const ManageProductPage = () => {
                       src={product.image}
                       alt={product.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 64px"
                       className="object-cover"
                     />
                   </div>
                 </td>
-                <td className="px-4 py-2 text-sm text-gray-800">
+                <td className="px-4 py-2 text-sm text-gray-800 flex gap-2">
+                  <Link
+                    href={`/products/${product._id}`}
+                    className="  bg-gray-200 p-1 rounded text-gray-500 cursor-pointer"
+                  >
+                    {" "}
+                    View
+                  </Link>
                   <button
                     onClick={() => removeTopics(product._id)}
                     className=" bg-red-400 p-1 rounded text-white cursor-pointer"

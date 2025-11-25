@@ -4,7 +4,6 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300 py-12">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-        {/* Services */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">Services</h3>
           <ul className="space-y-2">
@@ -23,7 +22,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Company */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">Company</h3>
           <ul className="space-y-2">
@@ -59,7 +57,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom text */}
       <div className="mt-12 text-center text-gray-500 text-sm">
         © {new Date().getFullYear()} YourCompany — All rights reserved.
       </div>

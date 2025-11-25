@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 const Loginpage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
   const router = useRouter();
 
   const handleSignIn = async (e) => {
@@ -24,6 +25,10 @@ const Loginpage = () => {
     }
   };
 
+  if (loading) {
+    return <p className=" text-center">Loading....</p>;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-sm">
@@ -32,7 +37,6 @@ const Loginpage = () => {
         </h2>
 
         <form onSubmit={handleSignIn} className="space-y-4">
-          {/* Email */}
           <div>
             <label className="block mb-1 font-medium">Email</label>
             <input
@@ -47,7 +51,6 @@ const Loginpage = () => {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className="block mb-1 font-medium">Password</label>
             <input
@@ -62,7 +65,17 @@ const Loginpage = () => {
             />
           </div>
 
-          {/* Login Button */}
+          {error && (
+            <p className="bg-red-100 text-red-600 py-2 px-3 rounded mb-3 text-sm">
+              ⚠
+              {error.message.includes("auth/wrong-password")
+                ? "Incorrect password!"
+                : error.message.includes("auth/user-not-found")
+                ? "No account found with this email!"
+                : "Login failed. Please try again."}
+            </p>
+          )}
+
           <button
             type="submit"
             className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
@@ -71,7 +84,6 @@ const Loginpage = () => {
           </button>
         </form>
 
-        {/* Register Link */}
         <p className="text-center text-sm mt-4">
           Don’t have an account?{" "}
           <a href="/register" className="text-indigo-600 font-semibold">

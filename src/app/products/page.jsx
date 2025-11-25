@@ -38,7 +38,7 @@ const ProductsPage = () => {
   return (
     <div className=" w-11/12 mx-auto">
       <div className=" text-center my-5">
-        <h2 className=" text-3xl font-bold text-gray-700">All Item</h2>
+        <h2 className=" text-3xl font-bold text-gray-700">All Product</h2>
         <p className="text-gray-500">
           Shop the latest electronics, gadgets, vehicles, and more! Find
           top-quality products at the best prices, handpicked for you.
@@ -66,14 +66,14 @@ const ProductsPage = () => {
           </select>
         </div>
       </div>
-      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 py-4">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 py-4 ">
         {topics.map((product, id) => {
           return (
             <div
               key={id}
-              className=" bg-white rounded-md overflow-hidden shadow-2xl"
+              className=" bg-white rounded-md overflow-hidden shadow hover:shadow-2xl duration-300"
             >
-              <div className="w-full h-48 relative">
+              <div className="w-full h-48 relative ">
                 <Image
                   src={product.image}
                   alt={product.title}

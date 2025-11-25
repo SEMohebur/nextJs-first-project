@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 const AddProductPage = () => {
   const [user, loading] = useAuthState(auth);
@@ -14,7 +15,6 @@ const AddProductPage = () => {
       router.push("/register");
     }
   }, [user, router, loading]);
-  ///
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState(null);
@@ -33,6 +33,13 @@ const AddProductPage = () => {
         body: JSON.stringify({ title, description, category, price, image }),
       });
       if (res.ok) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your product has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         router.push("/manageProducts");
       } else {
         throw new Error("Faild to create a topic");
@@ -42,9 +49,8 @@ const AddProductPage = () => {
     }
   };
 
-  ///
   if (loading || !user) {
-    return <p className="text-center mt-10 text-xl">Loading...</p>; // loading state
+    return <p className="text-center mt-10 text-xl">Loading...</p>;
   }
 
   return (
@@ -128,9 +134,9 @@ const AddProductPage = () => {
             />
           </div>
         </div>
-        <div className=" flex justify-center">
+        <div className=" flex justify-end">
           {" "}
-          <button className=" bg-indigo-500 py-2 px-5 rounded text-white cursor-pointer">
+          <button className=" bg-indigo-500 py-2 px-5 md:px-20 rounded text-white cursor-pointer">
             Add{" "}
           </button>
         </div>
