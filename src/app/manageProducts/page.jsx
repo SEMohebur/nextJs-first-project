@@ -1,158 +1,174 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Image from "next/image";
 import Swal from "sweetalert2";
-import { apiUrl } from "@/lib/apiUrl";
+import Link from "next/link";
 
-const AddProductPage = () => {
+const getAllData = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/topics`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      throw new Error("Faild to fetch topics");
+    }
+    return res.json();
+  } catch (err) {
+    console.log("Error loading topics: ", err);
+  }
+};
+
+const ManageProductPage = () => {
   const [user, loading] = useAuthState(auth);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [topics, setTopics] = useState([]);
   const router = useRouter();
 
-  // Redirect if user not logged in
   useEffect(() => {
     if (!loading && !user) {
       router.push("/register");
     }
-  }, [user, loading, router]);
+  }, [user, router, loading]);
+  //
 
-  // Form states
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  useEffect(() => {
+    const fetchTopics = async () => {
+      const data = await getAllData();
+      setTopics(data.topics || []);
+      setDataLoading(false);
+    };
+    fetchTopics();
+  }, []);
 
-  // Submit handler
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const removeTopics = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/topics?id=${id}`,
+            {
+              method: "DELETE",
+            }
+          );
 
-    try {
-      const res = await fetch(`${apiUrl}/api/topics`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, category, price, image }),
-      });
-
-      if (res.ok) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Product has been added!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-        router.push("/manageProducts");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Failed!",
-          text: "Could not create product.",
-        });
+          if (res.ok) {
+            await Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+            window.location.reload();
+          } else {
+            Swal.fire({
+              title: "Error!",
+              text: "Something went wrong while deleting.",
+              icon: "error",
+            });
+          }
+        } catch (err) {
+          Swal.fire({
+            title: "Error!",
+            text: "Something went wrong while deleting.",
+            icon: "error",
+          });
+        }
       }
-    } catch (err) {
-      console.log(err);
-      Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: "Something went wrong.",
-      });
-    }
+    });
   };
 
-  if (loading || !user) {
+  //
+  if (loading || !user || dataLoading) {
     return <p className="text-center mt-10 text-xl">Loading...</p>;
   }
-
   return (
-    <div className="w-11/12 mx-auto">
-      <form onSubmit={handleSubmit} className="p-5 bg-gray-100 rounded-2xl m-5">
-        <h3 className="text-3xl font-bold text-center text-gray-700">
-          Add Product
-        </h3>
+    <div className=" w-11/12 mx-auto">
+      <div className="overflow-x-auto my-2">
+        <h2 className=" my-4 text-center text-3xl font-bold text-gray-700">
+          Manage Product
+        </h2>
+        <table className="min-w-full border border-gray-200 ">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Title
+              </th>
 
-        <div className="mb-4 grid grid-cols space-y-4">
-          {/* Title */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Title
-            </label>
-            <input
-              type="text"
-              required
-              placeholder="Enter title..."
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300"
-            />
-          </div>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Category
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Price
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Image
+              </th>
 
-          {/* Description */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Description
-            </label>
-            <textarea
-              required
-              placeholder="Enter description..."
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300"
-            />
-          </div>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody className="">
+            {topics.map((product, id) => (
+              <tr
+                key={id}
+                className="hover:bg-gray-50 border-b border-gray-300"
+              >
+                <td className="px-4 py-2 text-sm text-gray-800">
+                  {product.title}
+                </td>
 
-          {/* Category */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Category
-            </label>
-            <input
-              type="text"
-              required
-              placeholder="Enter category..."
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300"
-            />
-          </div>
-
-          {/* Price */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Price
-            </label>
-            <input
-              type="number"
-              required
-              placeholder="Enter price..."
-              onChange={(e) => setPrice(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300"
-            />
-          </div>
-
-          {/* Image */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Image URL
-            </label>
-            <input
-              type="text"
-              required
-              placeholder="Enter image URL..."
-              onChange={(e) => setImage(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300"
-            />
-          </div>
-        </div>
-
-        <div className="flex justify-end">
-          <button className="bg-indigo-500 py-2 px-5 md:px-20 rounded text-white cursor-pointer">
-            Add
-          </button>
-        </div>
-      </form>
+                <td className="px-4 py-2 text-sm text-gray-800">
+                  {product.category}
+                </td>
+                <td className="px-4 py-2 text-sm text-gray-800">
+                  ${product.price}
+                </td>
+                <td className="px-4 py-2">
+                  <div className="w-16 h-10 relative overflow-hidden rounded">
+                    <Image
+                      src={product.image}
+                      alt={product.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 64px"
+                      className="object-cover"
+                    />
+                  </div>
+                </td>
+                <td className="px-4 py-2 text-sm text-gray-800 flex gap-2">
+                  <Link
+                    href={`/products/${product._id}`}
+                    className="  bg-gray-200 p-1 rounded text-gray-500 cursor-pointer"
+                  >
+                    {" "}
+                    View
+                  </Link>
+                  <button
+                    onClick={() => removeTopics(product._id)}
+                    className=" bg-red-400 p-1 rounded text-white cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default AddProductPage;
+export default ManageProductPage;
