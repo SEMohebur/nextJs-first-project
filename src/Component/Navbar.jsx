@@ -28,7 +28,7 @@ const Navbar = () => {
         </div>
         <ul className=" flex flex-col md:flex-row items-center justify-center gap-5 font-bold text-gray-700">
           <li className=" cursor-pointer">
-            <Link href="/" className="">
+            <Link href="/" className=" text-red-400">
               Home
             </Link>
           </li>
