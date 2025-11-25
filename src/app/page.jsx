@@ -14,21 +14,10 @@ const Homepage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTopics = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/topics`
-        );
-        const data = await res.json();
-        setTopics(data.topics || []);
-      } catch (err) {
-        console.log("Error loading topics:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTopics();
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/topics`)
+      .then((res) => res.json())
+      .then((data) => setTopics(data.topics || []))
+      .finally(() => setLoading(false));
   }, []);
 
   const items = [
