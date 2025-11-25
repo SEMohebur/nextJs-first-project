@@ -2,8 +2,13 @@ import connectMongoDB from "../../../../../libs/mongodb";
 import Topic from "../../../../../models/topic";
 import { NextResponse } from "next/server";
 
-const FRONTEND_URL = "https://next-js-first-project-kappa.vercel.app";
+// FRONTEND URL dynamic: dev -> localhost, production -> deployed URL
+const FRONTEND_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://next-js-first-project-kappa.vercel.app"
+    : "http://localhost:3000";
 
+// GET: get single topic by id
 export async function GET(request, { params }) {
   const { id } = params;
   await connectMongoDB();
@@ -22,6 +27,7 @@ export async function GET(request, { params }) {
   );
 }
 
+// OPTIONS: handle preflight requests
 export async function OPTIONS() {
   return NextResponse.json(
     {},
