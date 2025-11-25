@@ -10,9 +10,7 @@ import Link from "next/link";
 
 const getAllData = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/topics", {
-      cache: "no-store",
-    });
+    const res = await fetch("/api/topics", { cache: "no-store" });
     if (!res.ok) {
       throw new Error("Faild to fetch topics");
     }
@@ -56,7 +54,7 @@ const ManageProductPage = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`http://localhost:3000/api/topics?id=${id}`, {
+          const res = await fetch(`/api/topics?id=${id}`, {
             method: "DELETE",
           });
 
