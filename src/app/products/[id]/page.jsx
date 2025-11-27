@@ -1,29 +1,36 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
-const getTopicById = async (id) => {
-  try {
-    const res = await fetch(
-      `https://next-js-first-project-kappa.vercel.app/api/topics/${id}`,
-      {
-        cache: "no-store",
-      }
-    );
-    if (!res.ok) {
-      throw new Error("Faild to fetch");
-    }
-    return res.json();
-  } catch (err) {
-    console.log(err);
-  }
-};
+const ProductsDetailpage = () => {
+  const { id } = useParams();
 
-const ProductsDetailpage = async ({ params }) => {
-  const { id } = params;
-  const { topic } = await getTopicById(id);
-  // console.log(topic);
+  const [topic, setTopic] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetch(`https://next-js-first-project-kappa.vercel.app/api/topics/${id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((data) => {
+        setTopic(data.topic);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [id]);
+
+  console.log(id);
+  if (loading) return <p>Loading...</p>;
+  if (!topic) return <p>Topic not found</p>;
   return (
     <div className="w-11/12 mx-auto py-6">
       <div>

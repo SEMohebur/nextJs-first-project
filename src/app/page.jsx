@@ -20,6 +20,7 @@ const Homepage = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  console.log(topics);
   const items = [
     { number: "10K+", label: "Happy Customers" },
     { number: "500+", label: "Products Sold" },
@@ -47,8 +48,8 @@ const Homepage = () => {
             >
               <div className="w-full h-48 relative">
                 <Image
-                  src={product.image}
-                  alt={product.title}
+                  src={product?.image}
+                  alt={product?.title}
                   fill
                   className="object-cover"
                 />
