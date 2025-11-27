@@ -61,34 +61,13 @@ const ManageProductPage = () => {
 
     if (!result.isConfirmed) return;
 
-    try {
-      const res = await fetch(
-        `https://next-js-first-project-kappa.vercel.app/api/topics/${id}`,
-        { method: "DELETE" }
-      );
+    setTopics(topics.filter((t) => t._id !== id));
 
-      if (res.ok) {
-        setTopics(topics.filter((t) => t._id !== id));
-        Swal.fire({
-          title: "Deleted!",
-          text: "Topic has been deleted.",
-          icon: "success",
-        });
-      } else {
-        const errorData = await res.json();
-        Swal.fire({
-          title: "Error!",
-          text: errorData?.error || "Something went wrong.",
-          icon: "error",
-        });
-      }
-    } catch (err) {
-      Swal.fire({
-        title: "Error!",
-        text: err.message || "Something went wrong.",
-        icon: "error",
-      });
-    }
+    Swal.fire({
+      title: "Deleted!",
+      text: "Topic has been deleted.",
+      icon: "success",
+    });
   };
 
   //
