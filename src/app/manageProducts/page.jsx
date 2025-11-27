@@ -63,12 +63,12 @@ const ManageProductPage = () => {
 
     try {
       const res = await fetch(
-        `https://next-js-first-project-kappa.vercel.app/api/topics/${id}`, // ✅ path parameter
+        `https://next-js-first-project-kappa.vercel.app/api/topics/${id}`,
         { method: "DELETE" }
       );
 
       if (res.ok) {
-        setTopics(topics.filter((t) => t._id !== id)); // UI instantly update
+        setTopics(topics.filter((t) => t._id !== id));
         Swal.fire({
           title: "Deleted!",
           text: "Topic has been deleted.",

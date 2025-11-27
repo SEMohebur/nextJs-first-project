@@ -28,7 +28,6 @@ const ProductsDetailpage = () => {
       });
   }, [id]);
 
-  console.log(id);
   if (loading) return <p>Loading...</p>;
   if (!topic) return <p>Topic not found</p>;
   return (
