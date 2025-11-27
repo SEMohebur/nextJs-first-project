@@ -48,8 +48,8 @@ const ManageProductPage = () => {
   }, []);
 
   const removeTopics = async (id) => {
-    console.log(id);
-    Swal.fire({
+    console.log("Deleting ID:", id);
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -57,39 +57,38 @@ const ManageProductPage = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const res = await fetch(
-            `https://next-js-first-project-kappa.vercel.app/api/topics?id=${id}`,
-            {
-              method: "DELETE",
-            }
-          );
-
-          if (res.ok) {
-            await Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success",
-            });
-            window.location.reload();
-          } else {
-            Swal.fire({
-              title: "Error!",
-              text: "Something went wrong while deleting.",
-              icon: "error",
-            });
-          }
-        } catch (err) {
-          Swal.fire({
-            title: "Error!",
-            text: "Something went wrong while deleting.",
-            icon: "error",
-          });
-        }
-      }
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const res = await fetch(
+        `https://next-js-first-project-kappa.vercel.app/api/topics/${id}`, // ✅ path parameter
+        { method: "DELETE" }
+      );
+
+      if (res.ok) {
+        setTopics(topics.filter((t) => t._id !== id)); // UI instantly update
+        Swal.fire({
+          title: "Deleted!",
+          text: "Topic has been deleted.",
+          icon: "success",
+        });
+      } else {
+        const errorData = await res.json();
+        Swal.fire({
+          title: "Error!",
+          text: errorData?.error || "Something went wrong.",
+          icon: "error",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Error!",
+        text: err.message || "Something went wrong.",
+        icon: "error",
+      });
+    }
   };
 
   //

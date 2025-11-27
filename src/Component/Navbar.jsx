@@ -39,7 +39,7 @@ const Navbar = () => {
             <Link href="/about">About Us</Link>
           </li>
           {user ? (
-            <>
+            <ul className=" flex items-center gap-5">
               <li className=" cursor-pointer">
                 <Link href="/addProduct">Add Product</Link>
               </li>
@@ -51,12 +51,12 @@ const Navbar = () => {
               <li className=" cursor-pointer">
                 <button
                   onClick={handleLogout}
-                  className=" bg-gray-300 px-2 py-1 rounded-2xl cursor-pointer hover:bg-white duration-300 text-red-400"
+                  className=" bg-gray-300 px-2 py-1 rounded-2xl cursor-pointer hover:bg-white duration-300 "
                 >
                   Log Out
                 </button>
               </li>
-            </>
+            </ul>
           ) : (
             <>
               {" "}
