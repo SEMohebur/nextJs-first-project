@@ -61,7 +61,7 @@ const ManageProductPage = () => {
       if (result.isConfirmed) {
         try {
           const res = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/topics?id=${id}`,
+            `https://next-js-first-project-kappa.vercel.app/api/topics?id=${id}`,
             {
               method: "DELETE",
             }
