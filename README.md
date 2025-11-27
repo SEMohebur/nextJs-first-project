@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📘 প্রকল্পের README
 
-## Getting Started
+## 📝 সংক্ষিপ্ত প্রকল্প বর্ণনা
+এই প্রকল্পটি একটি সম্পূর্ণ কার্যকর Next.js ভিত্তিক ওয়েব অ্যাপ্লিকেশন, যেখানে ব্যবহারকারীরা ডেটা তৈরি, পড়া, আপডেট এবং মুছে ফেলতে (CRUD) পারে। প্রকল্পটিতে Firebase Authentication, API Routing, Server Components, Client Components সহ আধুনিক Next.js ফিচার ব্যবহার করা হয়েছে।
 
-First, run the development server:
+অ্যাপ্লিকেশনের ফ্রন্টএন্ডে বিভিন্ন কম্পোনেন্ট, পেজ রুট, ডায়নামিক রুট এবং API ইন্টিগ্রেশন ব্যবহার করা হয়েছে।
 
+---
+
+## ⚙️ সেটআপ ও ইনস্টলেশন নির্দেশনা
+নিচের ধাপগুলো অনুসরণ করে প্রকল্প লোকালি রান করতে পারবেন:
+
+### 🔧 ১. রিপোজিটরি ক্লোন করুন
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repository-url>
+cd <project-folder>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📦 ২. ডিপেন্ডেন্সি ইনস্টল করুন
+```bash
+npm install
+# অথবা
+yarn install
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 🔑 ৩. `.env.local` ফাইলে ENV ভেরিয়েবল যুক্ত করুন
+```env
+NEXT_PUBLIC_BASE_URL=your_production_or_local_api_url
+FIREBASE_API_KEY=your_key
+FIREBASE_AUTH_DOMAIN=your_domain
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_STORAGE_BUCKET=your_bucket
+FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+FIREBASE_APP_ID=your_app_id
+```
+> ⚠️ **Vercel Dashboard → Settings → Environment Variables** এ গিয়ে একই ভেরিয়েবলগুলো যুক্ত করতে হবে।
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### ▶️ ৪. লোকালি সার্ভার রান করুন
+```bash
+npm run dev
+```
 
-## Learn More
+লোকাল সার্ভার রান হবে:
+```
+http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛣️ রুট (Route) সামারি
+প্রকল্পে ব্যবহৃত গুরুত্বপূর্ণ রুটগুলোর তালিকা:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### **১. হোমপেজ**
+```
+/
+```
+অ্যাপের প্রধান ডাটা লোড হয়।
 
-## Deploy on Vercel
+### **২. সমস্ত পণ্যের তালিকা**
+```
+/products
+```
+সব প্রোডাক্ট দেখায়।
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **৩. একক প্রোডাক্ট ডিটেইলস পেজ**
+```
+/products/[id]
+```
+ডায়নামিক রুট, নির্দিষ্ট আইডির প্রোডাক্ট দেখায়।
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### **৪. নতুন পণ্য যোগ**
+```
+/products/add
+```
+নতুন পণ্য যুক্ত করার ফর্ম।
+
+### **৫. পণ্য এডিট**
+```
+/products/edit/[id]
+```
+ডায়নামিক রুট, আইডি অনুযায়ী আপডেট ফর্ম।
+
+### **৬. API রুটসমূহ**
+```
+/api/products        → GET, POST
+/api/products/[id]   → GET, PUT, DELETE
+```
+Next.js API Route দিয়ে CRUD কাজ করা হয়।
+
+---
+
+## ⭐ অতিরিক্ত গুরুত্বপূর্ণ বিষয়
+- পুরো প্রকল্পে Next.js App Router ব্যবহার করা হয়েছে।
+- Firebase দিয়ে Authentication ইমপ্লিমেন্টেড।
+- API থেকে ডেটা ফেচ করার জন্য server-side fetch ব্যবহার হয়েছে।
+- Vercel এ ডিপ্লয় করার সময় Environment Variable অবশ্যই সেট করতে হবে।
+
+---
+
+## 📌 উপসংহার
+এই README সম্পূর্ণ প্রকল্প বোঝা, ইনস্টলেশন এবং রুট স্ট্রাকচার বুঝতে সাহায্য করবে। ভবিষ্যতে আরও ফিচার সংযোগের জন্য এটি একটি শক্ত ভিত্তি প্রদান করে।
