@@ -3,14 +3,12 @@ import Topic from "../../../../models/topic";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
-// CORS headers
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*", // অথবা তোমার frontend domain
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-// OPTIONS handler (preflight requests)
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: corsHeaders });
 }
@@ -71,15 +69,13 @@ export async function POST(request) {
   }
 }
 
-// DELETE a topic by ID
 export async function DELETE(request) {
   try {
     const url = new URL(request.url);
-    const id = url.pathname.split("/").pop(); // last segment of the path
+    const id = url.pathname.split("/").pop();
 
     await connectMongoDB();
 
-    // Convert to ObjectId
     let objectId;
     try {
       objectId = new ObjectId(id);

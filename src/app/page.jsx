@@ -83,13 +83,11 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Services Section */}
       <section className="py-5">
         <h2 className="text-3xl font-bold text-center py-5 text-gray-700">
           Our Services
         </h2>
         <div className="grid md:grid-cols-3 gap-3">
-          {/* Service Cards */}
           <div className="shadow-md rounded-xl p-5 text-center bg-gray-100 space-y-3 cursor-pointer hover:shadow-xl duration-200">
             <h3 className="font-bold text-xl text-gray-700">
               Mobile & Gadget Shopping
@@ -149,7 +147,6 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Achievements Section */}
       <section className="py-14 bg-gray-50">
         <div className="max-w-6xl mx-auto text-center px-4">
           <h2 className="text-3xl font-bold mb-2">Our Achievements</h2>
@@ -172,7 +169,6 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section className="py-5 text-gray-700">
         <h2 className="text-3xl font-bold text-center py-5 text-gray-700">
           Contact Information

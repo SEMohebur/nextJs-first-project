@@ -3,28 +3,23 @@ import Topic from "../../../../../models/topic";
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
-// CORS headers
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-// OPTIONS preflight
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: corsHeaders });
 }
 
-// GET single topic by id
 export async function GET(request) {
   try {
-    // params এখন request.nextUrl থেকে নেওয়া হবে
     const url = new URL(request.url);
-    const id = url.pathname.split("/").pop(); // last segment
+    const id = url.pathname.split("/").pop();
 
     await connectMongoDB();
 
-    // ObjectId convert
     let objectId;
     try {
       objectId = new ObjectId(id);
